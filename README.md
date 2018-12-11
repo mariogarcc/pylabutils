@@ -1,6 +1,7 @@
 # pylabutils
 
-Simple single module with some useful functions for a science student's way of working with Python.
+Simple single module with some useful functions for a science student's way of
+working with Python.
 
 ### Dependencies:
 
