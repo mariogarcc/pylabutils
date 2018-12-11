@@ -4,4 +4,4 @@ I have worked and discussed solutions and procedures about this project previous
 
 The intent is to write down and keep said discussions for a better understanding of the development of this project.
 
-The intent for the first release of this project is to "get things done", referring to this project's goals for use, and only after looking for improvement on the code's optimization, readability, (logical) sense, etc.
+The intent for the first release of this project is to "get things done", referring to this project's goals for use, and only after, to look for improvement on the code's optimization, readability, (logical) sense, etc.
