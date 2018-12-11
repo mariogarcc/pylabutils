@@ -1,12 +1,12 @@
 # pylabutils.py
 
-Simple single module with some useful functions for our way of working with Python.
+Simple single module with some useful functions for a science student's way of working with Python.
 
-Dependencies:
+### Dependencies:
 
-+ ipython
-+ numpy
-+ matplotlib
-+ scipy
++ `ipython`
++ `numpy`
++ `matplotlib`
++ `scipy`
 
-Reminder: use `help(<item>)` for help/a description of the item.
+**Reminder**: use `help(<item>)` for help/a description of the item.
