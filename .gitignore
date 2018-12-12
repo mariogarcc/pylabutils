@@ -1,4 +1,12 @@
-# .gitignore from github.com/matplotlib/matplotlib/blob/master/.gitignore #
+# starter .gitignore from:
+# github.com/matplotlib/matplotlib/blob/master/.gitignore #
+# modified after to fit own needs
+
+# Specific to this project #
+pylabutils/*_junk*
+pylabutils/*_temp*
+*_temp*
+*_junk*
 
 #########################################
 # OS-specific temporary and backup files #
