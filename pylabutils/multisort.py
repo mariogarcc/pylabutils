@@ -6,17 +6,17 @@ def _asc_ind(item):
     Sorts elements in ascending order and returns a list of their previous
     indices compared to their current ones.
 
-    Parameters:
+    > Parameters:
 
     item : array-like
     """
     if type(item) in [list, tuple]:
         myitem = [[x, item.index(x)] for x in item]
-        myitem.sort()
-        return [element[1] for element in myitem]
+        myitem.sort() # sorts based on the first value for each pair
+        return [element[1] for element in myitem] # indices
 
     elif type(item) == np.ndarray:
-        return list(np.argsort(item))
+        return list(np.argsort(item)) # literally returns sorting indices
 
     else:
         return 'Item type not recognized'
@@ -27,7 +27,7 @@ def _desc_ind(item):
     Sorts elements in descending order and returns a list of their previous
     indices compared to their current ones.
 
-    Parameters:
+    > Parameters:
 
     item : array-like
     """
@@ -48,7 +48,7 @@ def _dalt_ind(item):
     Sorts elements in a sign-alternating descending order and returns a list
     of their previous indices compared to their current ones.
 
-    Parameters:
+    > Parameters:
 
     item : array-like
     """
@@ -79,11 +79,12 @@ def _dalt_ind(item):
 methods = [name for (name, func) in locals().items() \
     if callable(func) and (not __name__ == '__main__' or \
     func.__module__ == __name__)]
+# stores all __name__ values for the previously defined methods
 
 def multisort(guide, *data, **options):
     """
-    Sorts various indexable objects to a criterion that only one of them
-    (the guide) follows.
+    Sorts a `guide` via criterion and then applies the same index displacement
+    to all other items in `data`.
 
     > Parameters:
 
@@ -117,42 +118,46 @@ def multisort(guide, *data, **options):
     kwargs.update(options)
 
     for value in kwargs.keys():
-        if value in options.keys() and type(kwargs[value]) != type(options[value]):
+        if value in options.keys() and type(kwargs[value]) \
+            != type(options[value]): # quick check for kwarg validness
             raise TypeError('{} is an invalid value for {}'
-                .format(kwargs[value], value))
+                .format(options[value], value))
             return
 
     try:
-        method = eval([name for name in methods if kwargs['criterion'] in name][0])
+        method = eval([name for name in methods \
+            if kwargs['criterion'] in name][0])
+            # similar to re.groups()
     except:
         raise IndexError('specified criterion is invalid; default set to asc')
         method = _asc_ind
 
-    sorted_indices = method(guide)
-    print(('Resulting indices after sorting: {}').format(sorted_indices))
+    sorting_indices = method(guide)
+    print(('Resulting indices after sorting: {}').format(sorting_indices))
 
     if len(data) == 1:
         data = data[0]
+    # allows data to be introduced separately or clustered
 
     if kwargs['inplace']:
 
         for data_list in data:
             temp_list = copy.copy(data_list)
             for index in range(len(data_list)):
-                data_list[index] = temp_list[sorted_indices[index]]
+                data_list[index] = temp_list[sorting_indices[index]]
 
         if kwargs['include_guide']:
             temp_guide = copy.copy(guide)
             for index in range(len(guide)):
-                guide[index] = temp_guide[sorted_indices[index]]
+                guide[index] = temp_guide[sorting_indices[index]]
 
         return
 
-    sorted_data = [[data_list[new_index] for new_index in sorted_indices] \
+    sorted_data = [[data_list[new_index] for new_index in sorting_indices] \
         for data_list in data]
 
     if kwargs['include_guide']:
-        sorted_guide = [guide[new_index] for new_index in sorted_indices]
+        sorted_guide = [guide[new_index] for new_index in sorting_indices]
         sorted_data.insert(0, sorted_guide)
 
     return sorted_data

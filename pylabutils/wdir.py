@@ -3,8 +3,8 @@ import os
 
 @contextmanager
 def wdir(path):
-    '''
-    Yields a given path as working directory.
+    """
+    *Yields* a given path as working directory.
 
     Useful for importing/exporting data that's not locally stored,
     letting you not have to change the working directory back.
@@ -12,12 +12,16 @@ def wdir(path):
 
     >>> with wdir(<path>):
     ...     <do_something>
-    # sets a temporary workpath for action <do_something>
-    '''
+
+    > Parameters:
+
+    path : str
+    Path to desired working directory folder.
+    """
 
     current_dir = os.getcwd()
-    os.chdir(path)
+    os.chdir(path) # change directory
     try:
-        yield
-    finally:
-        os.chdir(current_dir)
+        yield # in context
+    finally: # cleanup
+        os.chdir(current_dir) # back to previous directory
