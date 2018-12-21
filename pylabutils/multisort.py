@@ -129,7 +129,7 @@ def multisort(guide, *data, **options):
             return
 
     try:
-        method = eval([name for name in methods \
+        method = eval([name for name in method_names \
             if kwargs['criterion'] in name][0])
             # similar to re.groups()
     except:
