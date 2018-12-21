@@ -60,7 +60,10 @@ def table(data, data_titles, **options):
     provided with a string argument to put inside the command.
     default : None
 
-    exp : *bool; optional*
+    exp : *bool or N x bool, array-like; optional*
+    Chooses whether to use power-of-ten (scientific) notation in the numbers
+    representation for any of the data lists.
+    default : False
 
     exp_prec : *int or N x int, array-like; optional*
     Specifies the amount of decimal digits to show on a power-of-ten
@@ -74,9 +77,6 @@ def table(data, data_titles, **options):
     Changes font size inside table.
     default : None
 
-    'data', 'data_titles' and 'precision' should all be tuples and have the same item order.
-    'shape' values: 'hor' or 'ver'; 'sep' values: 'hor', 'ver', 'full' or 'none'.
-    'precision' values must be strings: '3.5f'; '.3i'; '.2f'; '.f'
     """
 
 
@@ -134,7 +134,7 @@ def table(data, data_titles, **options):
 
     prec = kwargs['prec']
     exp_prec = kwargs['exp_prec']
-
+    exp = kwargs['exp']
 
     if kwargs['shape'] in 'vertical':
 
@@ -170,7 +170,12 @@ def table(data, data_titles, **options):
                     else (prec if type(prec) == int \
                         else prec[0]) # list format or single value
 
-                if kwargs['exp'] == True:
+                if kwargs['exp']:
+                    exp_val = \
+                        exp[j] if (type(exp) == list \
+                            and len(exp) != 1) \
+                        else (exp if type(exp) == bool \
+                            else exp[0]) # list format or single value
                     exp_precision = \
                         exp_prec[j] if (type(exp_prec) == list \
                             and len(exp_prec) != 1) \
@@ -180,10 +185,10 @@ def table(data, data_titles, **options):
                 num = round(data[j][i], precision)
 
                 formatting = ': .{}{}'.format( \
-                    '0' if (precision <= 0 and kwargs['exp'] == False) \
-                        else (precision if kwargs['exp'] == False \
+                    '0' if (precision <= 0 and exp_val == False) \
+                        else (precision if exp_val == False \
                             else exp_precision),
-                    'e' if kwargs['exp'] == True else 'f'
+                    'e' if exp_val == True else 'f'
                     )
 
                 row += '{{{}}}'.format(formatting).format(num)
@@ -226,7 +231,12 @@ def table(data, data_titles, **options):
                     else (prec if type(prec) == int \
                         else prec[0]) # list format or single value
 
-                if kwargs['exp'] == True:
+                if kwargs['exp']:
+                    exp_val = \
+                        exp[i] if (type(exp) == list \
+                            and len(exp) != 1) \
+                        else (exp if type(exp) == bool \
+                            else exp[0]) # list format or single value
                     exp_precision = \
                         exp_prec[i] if (type(exp_prec) == list \
                             and len(exp_prec) != 1) \
@@ -236,10 +246,10 @@ def table(data, data_titles, **options):
                 num = round(data[i][j], precision)
 
                 formatting = ': .{}{}'.format( \
-                    '0' if (precision <= 0 and kwargs['exp'] == False) \
-                        else (precision if kwargs['exp'] == False \
+                    '0' if (precision <= 0 and exp_val == False) \
+                        else (precision if exp_val == False \
                             else exp_precision),
-                    'e' if kwargs['exp'] == True else 'f'
+                    'e' if exp_val == True else 'f'
                     )
 
                 row += '{{{}}}'.format(formatting).format(num) # add num
@@ -280,9 +290,12 @@ def table(data, data_titles, **options):
 
 #### Test ####
 
-# col1 = [1.00923, 222.123, 311111.1, 3241]
-# col2 = [4.3232, 5.9, 6.3, 40004]
-# col3 = [0.001, 0.002, 0.003, 0.006]
-# titles = ['col1', 'col2', 'col3']
-#
-# table([col1, col2, col3], titles, shape = 'v', sep = 'v', exp = True)
+col1 = [1.00923, 222.123, 311111.1, 3241]
+col2 = [4.3232, 5.9, 6.3, 40004]
+col3 = [0.001, 0.002, 0.003, 0.006]
+titles = ['col1', 'col2', 'col3']
+
+table([col1, col2, col3], titles, shape = 'v', sep = 'v',
+    exp = [True, True, False],
+    exp_prec = [0, 2, 3],
+)
