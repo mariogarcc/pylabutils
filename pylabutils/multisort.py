@@ -1,6 +1,8 @@
 import copy
 import numpy as np
 
+__all__ = ['multisort', 'methods']
+
 def _asc_ind(item):
     """
     Sorts elements in ascending order and returns a list of their previous
@@ -8,7 +10,7 @@ def _asc_ind(item):
 
     > Parameters:
 
-    item : array-like
+    item : *array-like*
     """
     if type(item) in [list, tuple]:
         myitem = [[x, item.index(x)] for x in item]
@@ -29,7 +31,7 @@ def _desc_ind(item):
 
     > Parameters:
 
-    item : array-like
+    item : *array-like*
     """
     if type(item) in [list, tuple]:
         myitem = [[x, item.index(x)] for x in item]
@@ -50,7 +52,7 @@ def _dalt_ind(item):
 
     > Parameters:
 
-    item : array-like
+    item : *array-like*
     """
     if type(item) == np.ndarray:
         raise TypeError('numpy.ndarray not yet supported for this sort')
@@ -76,10 +78,12 @@ def _dalt_ind(item):
         # distance between elements
     return [element[1] for element in myitem]
 
-methods = [name for (name, func) in locals().items() \
+
+method_names, methods = zip(*[[name, func] for (name, func) in locals().items() \
     if callable(func) and (not __name__ == '__main__' or \
-    func.__module__ == __name__)]
-# stores all __name__ values for the previously defined methods
+    func.__module__ == __name__)])
+# stores all items() values for the previously defined methods
+
 
 def multisort(guide, *data, **options):
     """
@@ -95,15 +99,15 @@ def multisort(guide, *data, **options):
     The list of items that will be sorted according to the result from the
     `guide` sort.
 
-    criterion : *str, optional*
+    criterion : *str; optional*
     Method for sorting the `guide`.
     default : 'asc'
 
-    inplace : *bool, optional*
+    inplace : *bool; optional*
     Chooses whether to sort the items in-place.
     default : False
 
-    include_guide : *bool, optional*
+    include_guide : *bool; optional*
     If `inplace == False`, chooses whether to include `guide` into the
     returned object from the function call.
     default : True
