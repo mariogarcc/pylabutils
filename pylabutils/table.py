@@ -21,7 +21,7 @@ def table(data, data_titles, **options):
     """
     Generates a simple Latex table containing numeric data.
 
-    Parameters:
+    > Parameters:
 
     data : *N x array-like*
     Data that will be presented in the table.
@@ -76,7 +76,6 @@ def table(data, data_titles, **options):
     font_size_type : *str or None; optional*
     Changes font size inside table.
     default : None
-
     """
 
 
