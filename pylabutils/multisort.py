@@ -139,7 +139,7 @@ def multisort(guide, *data, **options):
     sorting_indices = method(guide)
     print(('Resulting indices after sorting: {}').format(sorting_indices))
 
-    if len(data) == 1:
+    if len(data) == 1 and type(data[0][0]) == list:
         data = data[0]
     # allows data to be introduced separately or clustered
 
