@@ -1,4 +1,4 @@
-from pylabutils.utils.multisort import multisort
+from pylabutils.utils.operate import multisort
 
 g = [5, 3, 1, 6, 4, 2]
 d1 = [10, 11, 12, 13, 14, 15]

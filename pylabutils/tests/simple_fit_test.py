@@ -1,5 +1,9 @@
-from pylabutils.numfit.simple_fit import fit
-from pylabutils.utils.multisort import multisort
+from pylabutils.numfit.methods import fit
+try:
+    from pylabutils.utils.operate import multisort
+    multisort_imported = True
+except:
+    print("could not import multisort")
 
 print("Loading data from a real laboratory experiment!")
 
@@ -24,7 +28,12 @@ sexp_phase = [5.5] * len(exp_phase)
 sfrec = [0.01] * len(frec)
 
 print("Sorting the data so everything runs fine...")
-multisort(exp_phase, frec, include_guide = True, inplace = True)
+if multisort_imported == True:
+    try:
+        multisort(exp_phase, frec, include_guide = True, inplace = True)
+    except:
+        print("there was an error utilizing multisort function.")
+
 
 print("Test, part 1:")
 fit('y = {A} * x', frec, exp_phase,
