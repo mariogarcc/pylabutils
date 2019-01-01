@@ -64,7 +64,8 @@ def _add_cols(df):
 
 def read_data(filename, **options):
     """
-    Description
+    Reads a table-like file containing data and contains it in a
+    `pandas.DataFrame` that behaves like a dictionary.
 
     > Parameters:
 
