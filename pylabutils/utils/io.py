@@ -1,15 +1,23 @@
 """
+Collection of methods/functions/classes regarding input and output of data.
 """
 
-#all imports############
-from contextlib import contextmanager
+# standard library imports
+import re
 import os
-
-#####
-
-
+import sys
+import copy
+import codecs
+import warnings
 from contextlib import contextmanager
-import os
+
+# dependency imports
+import pandas as pd
+import numpy as np
+
+# intra-package imports
+##
+
 
 @contextmanager
 def wdir(path):
