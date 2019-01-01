@@ -12,6 +12,8 @@ import numpy as np
 # intra-package imports
 ##
 
+__all__ = ['multisort', 'Interval']
+
 
 def _ms_asc_ind(item):
     """

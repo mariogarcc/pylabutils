@@ -1,4 +1,4 @@
-from pylabutils.numfit.methods import fit
+from pylabutils.numfit.methods import simple_fit
 try:
     from pylabutils.utils.operate import multisort
     multisort_imported = True

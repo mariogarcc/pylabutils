@@ -18,6 +18,8 @@ import numpy as np
 # intra-package imports
 ##
 
+__all__ = ['wdir', 'read_data', 'tex_table']
+
 
 @contextmanager
 def wdir(path):
