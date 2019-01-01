@@ -1,9 +1,9 @@
 import copy
 import numpy as np
 
-__all__ = ['multisort', 'methods']
+__all__ = ['multisort', 'ms_methods']
 
-def _asc_ind(item):
+def _ms_asc_ind(item):
     """
     Sorts elements in ascending order and returns a list of their previous
     indices compared to their current ones.
@@ -24,7 +24,7 @@ def _asc_ind(item):
         return 'Item type not recognized'
 
 
-def _desc_ind(item):
+def _ms_desc_ind(item):
     """
     Sorts elements in descending order and returns a list of their previous
     indices compared to their current ones.
@@ -45,7 +45,7 @@ def _desc_ind(item):
         return 'Item type not recognized'
 
 
-def _dalt_ind(item):
+def _ms_dalt_ind(item):
     """
     Sorts elements in a sign-alternating descending order and returns a list
     of their previous indices compared to their current ones.
@@ -79,7 +79,8 @@ def _dalt_ind(item):
     return [element[1] for element in myitem]
 
 
-method_names, methods = zip(*[[name, func] for (name, func) in locals().items() \
+ms_method_names, ms_methods = \
+    zip(*[[name, func] for (name, func) in locals().items() \
     if callable(func) and (not __name__ == '__main__' or \
     func.__module__ == __name__)])
 # stores all items() values for the previously defined methods
@@ -111,6 +112,7 @@ def multisort(guide, *data, **options):
     If `inplace == False`, chooses whether to include `guide` into the
     returned object from the function call.
     default : True
+    
     """
 
     kwargs = dict(
@@ -129,12 +131,12 @@ def multisort(guide, *data, **options):
             return
 
     try:
-        method = eval([name for name in method_names \
+        method = eval([name for name in ms_method_names \
             if kwargs['criterion'] in name][0])
             # similar to re.groups()
     except:
         raise IndexError('specified criterion is invalid; default set to asc')
-        method = _asc_ind
+        method = _ms_asc_ind
 
     sorting_indices = method(guide)
     print(('Resulting indices after sorting: {}').format(sorting_indices))

@@ -1,6 +1,6 @@
 __all__ = ['table']
 
-_values = dict(
+_tex_values = dict(
     shape = ('v', 'h', 'ver', 'hor', 'vertical', 'horizontal'),
     sep = ('v', 'h', 'f', 'no', 'ver', 'hor', # 'n' is also in 'horizontal'
         'vertical', 'horizontal', 'full', 'none'
@@ -17,7 +17,7 @@ _values = dict(
     )
 
 
-def table(data, data_titles, **options):
+def tex_table(data, data_titles, **options):
     """
     Generates a simple Latex table containing numeric data.
 
