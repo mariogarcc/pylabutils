@@ -114,7 +114,7 @@ def fit(func, xdata, ydata, **options):
     default : False
 
     > Other options:
-    
+
     capsize, titles, labels, markers, linestyles, ecolor, elinewidth,
     errorevery, barsabove, linewitdh, markersize, markevery, fillstyle.
 
@@ -123,7 +123,7 @@ def fit(func, xdata, ydata, **options):
 
     """
 
-    parms = re.findall(r'(?<=\{)[\w\.\(\)]*?(?=\})', func)
+    parms = re.findall(r'(?<=\{)\w[\w\.\(\)]*(?=\})', func)
     # finds parameters to adjust
 
     for parm in parms:
