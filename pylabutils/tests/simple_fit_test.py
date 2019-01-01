@@ -36,7 +36,7 @@ if multisort_imported == True:
 
 
 print("Test, part 1:")
-fit('y = {A} * x', frec, exp_phase,
+simple_fit('y = {A} * x', frec, exp_phase,
     yerr = sexp_phase, graph = True, split = False)
 
 
@@ -44,6 +44,6 @@ go = input("Continue? y/n\n")
 
 if go in ['y', 'yes']:
     print("\nTest, part 2:")
-    fit('y = {A} * np.sin({B} + x/{C})', exp_phase, frec,
+    simple_fit('y = {A} * np.sin({B} + x/{C})', exp_phase, frec,
         yerr =  sfrec, guess = [5, 20, 400], size = (12, 8), graph = True,
         split = False, colors = ['orange', 'purple', 'yellow'])
