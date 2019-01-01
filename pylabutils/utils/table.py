@@ -1,6 +1,6 @@
 __all__ = ['table']
 
-_tex_values = dict(
+_tex_table_values = dict(
     shape = ('v', 'h', 'ver', 'hor', 'vertical', 'horizontal'),
     sep = ('v', 'h', 'f', 'no', 'ver', 'hor', # 'n' is also in 'horizontal'
         'vertical', 'horizontal', 'full', 'none'
@@ -99,10 +99,10 @@ def tex_table(data, data_titles, **options):
 
     kwargs.update(options)
 
-    if any([kwargs[option] not in _values[option] \
-            for option in _values.keys()]): # fast check
-        for option in _values.keys():
-            if kwargs[option] not in _values[option]:
+    if any([kwargs[option] not in _table_values[option] \
+            for option in _table_values.keys()]): # fast check
+        for option in _table_values.keys():
+            if kwargs[option] not in _table_values[option]:
                 raise ValueError("'{}' is not a valid value for '{}'" \
                     .format(kwargs[option], option))
                 return
