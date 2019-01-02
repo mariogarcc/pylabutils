@@ -157,7 +157,7 @@ def simple_fit(func, xdata, ydata, **options):
     kwargs = dict(
         yerr = None,
         xerr = None,
-        beta0 = [0.] * len(parms),
+        beta0 = [1.] * len(parms),
         absolute_err = True,
         bounds = (-np.inf, np.inf),
         method = None,
