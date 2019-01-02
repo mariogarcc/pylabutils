@@ -52,6 +52,23 @@ def simple_fit(func, xdata, ydata, **options):
     parameters; throws `RuntimeError`.
     default : 0. x N
 
+    absolute_err : *bool; optional*
+    Specifies whether the `yerr` provided is in absolute or relative values.
+    default : True
+
+    bounds : *2-tuple of array-like; optional*
+    Lower and upper bounds of parameter values. Each element of the tuple must
+    be either an array with the length equal to the number of parameters, or
+    a scalar (in which case the bound is taken to be the same for all
+    parameters.) Use np.inf with an appropriate sign to disable bounds on all
+    or some parameters.
+    default : (-np.inf, np.inf)
+
+    method : *{'lm', 'trf', 'dogbox'}; optional*
+    Method to use for optimization. See (https://docs.scipy.org/doc/scipy/
+    reference/generated/scipy.optimize.curve_fit.html) for more details.
+    default : None
+
     graph : *M x bool or bool; optional*
     Chooses whether to show graphical representations for any of the three
     graphical options: the first graph plots the data given, the second graph
@@ -141,6 +158,9 @@ def simple_fit(func, xdata, ydata, **options):
         yerr = None,
         xerr = None,
         beta0 = [0.] * len(parms),
+        absolute_err = True,
+        bounds = (-np.inf, np.inf),
+        method = None,
         graph = False,
         errorbars = True,
         sizes = [(6, 4), (6, 4), (6, 4)],
@@ -148,11 +168,11 @@ def simple_fit(func, xdata, ydata, **options):
         save = False,
         colors = ['blue', 'red', 'orange'],
         capsize = 3,
-        titles = [None, None, None], #nones or strings
-        labels = [None, None, None], #nones or strings
-        axis_labels = [None, None], #nones or strings
-        legend = False, #bool or string
-        markers = ['.', '', '.'], ############ matplotlib documentation ##############
+        titles = [None, None, None],
+        labels = [None, None, None],
+        axis_labels = [None, None],
+        legend = False,
+        markers = ['.', '', '.'],
         linestyles = ['', '-', ''],
         ecolor = None,
         elinewidth = None,
@@ -210,7 +230,9 @@ def simple_fit(func, xdata, ydata, **options):
         _func_image, xdata, ydata,
         p0 = kwargs['beta0'],
         sigma = kwargs['yerr'],
-        absolute_sigma = True
+        absolute_sigma = kwargs['absolute_err'],
+        bounds = kwargs['bounds'],
+        method = kwargs['method']
         )
     # ydata no longer has an use
 
