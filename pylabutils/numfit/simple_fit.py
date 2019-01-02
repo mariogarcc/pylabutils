@@ -7,7 +7,7 @@ from matplotlib import rc
 
 from .._colors import color_dict
 
-def fit(func, xdata, ydata, **options):
+def simple_fit(func, xdata, ydata, **options):
     """
     Adjusts (x, y) data to a given curve with unknown parameter values with
     optional convenient result graphing.
@@ -19,7 +19,9 @@ def fit(func, xdata, ydata, **options):
     form 'y = f(x)' meaning that the first term has to be left alone, with no
     operations applied onto it (e.g. 1/y). 'y', however, can have an arbitrary
     name, such as 'q', 'theta', etc. 'x' can also have an arbitrary name but
-    that name must be specified in the `custom_x` option.
+    that name must be either enclosed between square brackets **or** specified
+    in the `custom_x` option. If this is the case, avoid using variables
+    named 'x'.
     The function will theoretically have some parameters that will have to
     be found for the data to be fit to the curve. Those parameters must be
     written between curly brackets `{ }`,
@@ -106,7 +108,8 @@ def fit(func, xdata, ydata, **options):
 
     custom_x : *str; optional*
     Specifies which string is to be interpreted as the 'x' variable inside
-    the function. The default string is 'x'.
+    the function. The default string is 'x'. It is recommended to use square
+    brackets instead of this option.
     default : False (no custom_x string)
 
     printf : *bool; optional*
@@ -182,9 +185,17 @@ def fit(func, xdata, ydata, **options):
     plt.rc('text', usetex = kwargs['usetex'])
     plt.rc('font', family = kwargs['font_family'])
 
-    def adjust(x, *values):
+    x_str = kwargs['custom_x'] if type(kwargs['custom_x']) == str else 'x'
+    # square brackets notation overrides custom_x
+    custom_x = re.search(r'(?<=\[)\w[\w\.\(\)]*(?=\])', func)
+    if custom_x:
+        x_str = func[custom_x.start():custom_x.end()]
 
-        temp_curve = copy.copy(func)
+    func = re.sub(r'\[{}\]'.format(x_str), 'x', func)
+
+    def _func_image(x, *values):
+
+        temp_curve = copy.deepcopy(func)
 
         for i in range(len(parms)):
             temp_curve = re.sub( \
@@ -195,7 +206,7 @@ def fit(func, xdata, ydata, **options):
         return image
 
     sols = so.curve_fit(
-        adjust, xdata, ydata,
+        _func_image, xdata, ydata,
         p0 = kwargs['guess'],
         sigma = kwargs['yerr'],
         absolute_sigma = True
@@ -208,7 +219,7 @@ def fit(func, xdata, ydata, **options):
     # results
 
     # if introducing uncertainties module:
-    # fit_parms = \
+    # fit_parm_pairs = \
     #   [us.ufloat(parm, u) for parm, u in zip(fit_parms, fit_parms_us)
     # ... etc.
 
@@ -216,8 +227,13 @@ def fit(func, xdata, ydata, **options):
     for i in range(len(fit_parms)):
         fit_func = re.sub( \
             '{{{}}}'.format(parms[i]), str(fit_parms[i]), fit_func)
-    x_str = kwargs['custom_x'] if type(kwargs['custom_x']) == str else 'x'
-    fit_func = re.sub('x', 'xdata', fit_func)
+
+    xloc = re.search(r'[^\w\.]x[^\w\.]', fit_func).start() + 1
+    tempf = [fit_func[i] if i != xloc else 'xdata' \
+        for i in range(len(fit_func))]
+    fit_func = copy.deepcopy(''.join(tempf))
+    # fit_func = re.sub('x', 'xdata', fit_func) fails against np.exp...
+
     # string for the resulting function with fit parameters
     # substituting xdata so that it is called when fit_curve is evaluated
 
@@ -264,6 +280,7 @@ def fit(func, xdata, ydata, **options):
 
     if kwargs['graph'] == True:
         kwargs['graph'] = [True, True, False]
+
     if any(kwargs['graph']):
 
         xdata = np.array(xdata)
@@ -364,7 +381,7 @@ def fit(func, xdata, ydata, **options):
                     elif i == 2:
                         plt.savefig('fit_data.pdf')
 
-            plt.show()
+        plt.show()
 
     if kwargs['printf']:
         print_func = copy.copy(func)
