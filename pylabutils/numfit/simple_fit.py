@@ -3,6 +3,7 @@ import copy
 import numpy as np
 import scipy.optimize as so
 import matplotlib.pyplot as plt
+
 from matplotlib import rc
 
 from .._colors import color_dict
@@ -45,7 +46,7 @@ def simple_fit(func, xdata, ydata, **options):
     odr_fit function.
     default : None
 
-    guess : *N x scalar; optional*
+    beta0 : *N x scalar; optional*
     Sets a first guess for function parameters. N is the number of function
     parameters. Might be required if the function fails to find the correct
     parameters; throws `RuntimeError`.
@@ -139,7 +140,7 @@ def simple_fit(func, xdata, ydata, **options):
     kwargs = dict(
         yerr = None,
         xerr = None,
-        guess = [0.] * len(parms),
+        beta0 = [0.] * len(parms),
         graph = False,
         errorbars = True,
         sizes = [(6, 4), (6, 4), (6, 4)],
@@ -207,12 +208,11 @@ def simple_fit(func, xdata, ydata, **options):
 
     sols = so.curve_fit(
         _func_image, xdata, ydata,
-        p0 = kwargs['guess'],
+        p0 = kwargs['beta0'],
         sigma = kwargs['yerr'],
         absolute_sigma = True
         )
     # ydata no longer has an use
-    # if people wanted another graph, they don't need
 
     fit_parms = sols[0]
     fit_parms_us = np.sqrt(np.diag(sols[1]))
@@ -232,10 +232,9 @@ def simple_fit(func, xdata, ydata, **options):
     tempf = [fit_func[i] if i != xloc else 'xdata' \
         for i in range(len(fit_func))]
     fit_func = copy.deepcopy(''.join(tempf))
-    # fit_func = re.sub('x', 'xdata', fit_func) fails against np.exp...
-
     # string for the resulting function with fit parameters
     # substituting xdata so that it is called when fit_curve is evaluated
+    # fit_func = re.sub('x', 'xdata', fit_func) fails against np.exp...
 
     fit_curve = fit_func[fit_func.find('=')+1:]
     # for eval() purposes
