@@ -497,6 +497,12 @@ def tex_table(data, data_titles, **options):
     Can only take values greater than or equal to 0.
     default : 2
 
+    fwf : *bool; optional*
+    Chooses whether to use fixed width formatting for representing non-negative
+    numbers. This means a space will be added before positive numbers in their
+    representation, to account for the missing negative sign `-`.
+    default : False
+
     font_size_type : *str or None; optional*
     Changes font size inside table.
     default : None
@@ -515,6 +521,7 @@ def tex_table(data, data_titles, **options):
         label = None,
         exp = False,
         exp_prec = 2,
+        fwf = False, # formatting with whitespace for non negative numbers
         font_size_type = None,
     )
 
@@ -538,7 +545,7 @@ def tex_table(data, data_titles, **options):
 
         if len(data) != len(kwargs['prec']) or len(data) != len(data_titles):
             raise ValueError("data's, data titles' and" \
-                "precisions' sizes don't match")
+                " precisions' sizes don't match")
             return
         else:
             for i in range(len(data)):
@@ -572,20 +579,21 @@ def tex_table(data, data_titles, **options):
 
         titles = '' \
             + '\n' \
-            + '\\hline\n' * (kwargs['sep'] in ('horizontal''||''full'))\
+            + '\\hline\n' * (kwargs['sep'] in ('horizontal''||''full')) \
+            + ' '
 
         for i in range(len(data_titles)):
             titles += data_titles[i]
             if i != len(data_titles) - 1:
                 titles += ' & '
             else:
-                titles += '' \
+                titles += ' ' \
                     + '\\''\\''\n' \
                     + '\\hline\n'
 
         rows = ''
         for i in range(len(data[0])):
-            row = ''
+            row = ' '
             for j in range(len(data)):
 
                 precision = \
@@ -595,6 +603,7 @@ def tex_table(data, data_titles, **options):
                         else prec[0]) # list format or single value
 
                 if kwargs['exp']:
+                    exp = kwargs['exp']
                     exp_val = \
                         exp[j] if (type(exp) == list \
                             and len(exp) != 1) \
@@ -605,10 +614,13 @@ def tex_table(data, data_titles, **options):
                             and len(exp_prec) != 1) \
                         else (exp_prec if type(exp_prec) == int \
                             else exp_prec[0]) # list format or single value
+                else:
+                    exp_val = False # bit ugly, this is
 
                 num = round(data[j][i], precision)
 
-                formatting = ': .{}{}'.format( \
+                formatting = ':{}.{}{}'.format( \
+                    ' ' if kwargs['fwf'] else '',
                     '0' if (precision <= 0 and exp_val == False) \
                         else (precision if exp_val == False \
                             else exp_precision),
@@ -620,11 +632,11 @@ def tex_table(data, data_titles, **options):
                 if j != len(data)-1:
                     row += ' & '
 
-            row += '\\''\\''\n'
+            row += ' ''\\''\\''\n'
 
             if i != len(data[0])-1:
                 row += \
-                    '\\hline\n' * (kwargs['sep'] in ('horizontal''||''full'))
+                    ' \\hline\n' * (kwargs['sep'] in ('horizontal''||''full'))
 
             rows += row
 
@@ -646,7 +658,7 @@ def tex_table(data, data_titles, **options):
             + '\\hline\n' * (kwargs['sep'] in ('horizontal''||''full'))
 
         for i in range(len(data)):
-            row = data_titles[i] + ' & '
+            row = ' ' + data_titles[i] + ' & '
             for j in range(len(data[0])):
 
                 precision = \
@@ -656,6 +668,7 @@ def tex_table(data, data_titles, **options):
                         else prec[0]) # list format or single value
 
                 if kwargs['exp']:
+                    exp = kwargs['exp']
                     exp_val = \
                         exp[i] if (type(exp) == list \
                             and len(exp) != 1) \
@@ -666,10 +679,13 @@ def tex_table(data, data_titles, **options):
                             and len(exp_prec) != 1) \
                         else (exp_prec if type(exp_prec) == int \
                             else exp_prec[0]) # list format or single value
+                else:
+                    exp_val = False
 
                 num = round(data[i][j], precision)
 
-                formatting = ': .{}{}'.format( \
+                formatting = ':{}.{}{}'.format( \
+                    ' ' if kwargs['fwf'] else '',
                     '0' if (precision <= 0 and exp_val == False) \
                         else (precision if exp_val == False \
                             else exp_precision),
@@ -681,11 +697,11 @@ def tex_table(data, data_titles, **options):
                 if j != len(data[0])-1:
                     row += ' & '
 
-            row += '\\''\\''\n' \
+            row += ' ''\\''\\''\n' \
 
             if i != len(data)-1:
                 row += \
-                    '\\hline\n' * (kwargs['sep'] in ('horizontal''||''full'))
+                    ' \\hline\n' * (kwargs['sep'] in ('horizontal''||''full'))
             # complete row
 
             rows += row # add row
@@ -708,5 +724,6 @@ def tex_table(data, data_titles, **options):
     return print(table)
 
 # should I make formatting have space for positive numbers or remove it?
+# > added kwarg to choose
 # should I add an extra space on row start and end? there is a space
-# after and before & signs, so I should probably do that
+# after and before & signs, so I should probably do that > done
