@@ -6,10 +6,10 @@ col3 = [0.001, 0.002, 0.003, 0.006]
 titles = ['col1', r'$\mathrm{col2}$', r'$col\gamma$']
 
 print("Data to be utilized:\n")
-print(col1)
-print(col2)
-print(col3)
-print(col4)
+print("Printed titles: {}".format(titles))
+print("{} = {}".format('col1', col1))
+print("{} = {}".format('col2', col2))
+print("{} = {}".format('col3', col3))
 
 tex_table([col1, col2, col3], titles, shape = 'v', sep = 'v',
     exp = [True, True, False],

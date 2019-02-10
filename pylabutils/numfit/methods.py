@@ -1,3 +1,108 @@
+__all__ = ['fit']
+
+import re
+import copy
+import numpy as np
+import scipy.optimize as so
+import matplotlib.pyplot as plt
+
+from matplotlib import rc
+
+from .._colors import color_dict
+from .._tools import _get_image, _ffixx, _plot_fit
+
+from ..utils.io import _print_measure
+
+
+###############################################################
+"""
+===============================================================
+"""
+###############################################################
+
+
+def _sqerrSum(_func_image, xdata, ydata, *parms):
+    warnings.filterwarnings("ignore")
+    image = _func_image(xdata, *parms)
+    # note how this only takes x and parameters!
+    # equivalent to _func_image in the main fit() function
+    return np.sum((ydata - image) ** 2.0)
+
+
+###############################################################
+"""
+===============================================================
+"""
+###############################################################
+
+
+def find_beta(func, xdata, ydata, min_func, nparms, **options):
+    """
+    min_func is the function to minimize
+    """
+
+    kw = dict(
+        bounds = (-1000, 1000),
+        fb_method = 'differential_evolution',
+        de_strategy = 'best1bin',
+        de_maxiter = None,
+        de_popsize = 15,
+        de_tol = 0.01,
+        de_mutation = (0.5, 1),
+        de_recombination = 0.7,
+        de_seed = None,
+        de_callback = None,
+        de_disp = False,
+        de_polish = True,
+        de_init = 'latinhypercube',
+    )
+
+    kw.update(options)
+
+    if kw['fb_method'].lower() == 'differential_evolution':
+        try:
+            x_max, y_max = max(xdata), max(ydata)
+            x_min, y_min = min(xdata), min(ydata)
+            xy_max, xy_min = max(x_max, y_max), min(x_min, x_min)
+            if kw['bounds'] == None or kw['bounds'] == (-np.inf, np.inf):
+                kw['bounds'] = [[-xy_max, xy_max]] * nparms
+            elif len(kw['bounds']) == 2 \
+                    and type(kw['bounds'] not in (list, tuple)):
+                kw['bounds'] = [kw['bounds']] * nparms
+
+            result = so.differential_evolution(
+                min_func,
+                kw['bounds'],
+                strategy = kw['de_strategy'],
+                maxiter = kw['de_maxiter'],
+                popsize = kw['de_popsize'],
+                tol = kw['de_tol'],
+                mutation = kw['de_mutation'],
+                recombination = kw['de_recombination'],
+                seed = kw['de_seed'],
+                callback = kw['de_callback'],
+                disp = kw['de_disp'],
+                polish = kw['de_polish'],
+                init = kw['de_init'],
+            )
+        except:
+            raise ValueError("couldn't find beta")
+
+        return result.x
+
+    else:
+        print("{!r} is not implemented yet".format(kw['fb_method']))
+        return
+
+    return
+
+
+###############################################################
+"""
+===============================================================
+"""
+###############################################################
+
 def fit(func, xdata, ydata, **options):
     """
     Adjusts (x, y) data to a given curve with unknown parameter values with

@@ -9,6 +9,9 @@ import sys
 import copy
 import codecs
 import warnings
+
+import uncertainties as us
+
 from contextlib import contextmanager
 
 # dependency imports
@@ -35,7 +38,7 @@ def wdir(path):
 
     > Parameters:
 
-    path : str
+    path : *str*
     Path to desired working directory folder.
 
     """
@@ -48,9 +51,11 @@ def wdir(path):
         os.chdir(current_dir) # back to previous directory
 
 
-############################################################
-"""============================================================"""
-############################################################
+###############################################################
+"""
+===============================================================
+"""
+###############################################################
 
 
 def _add_cols(df):
@@ -417,9 +422,11 @@ def read_data(filename, **options):
 # group csv and table contexts.
 
 
-############################################################
-"""============================================================"""
-############################################################
+###############################################################
+"""
+===============================================================
+"""
+###############################################################
 
 
 # No imports required
@@ -727,3 +734,33 @@ def tex_table(data, data_titles, **options):
 # > added kwarg to choose
 # should I add an extra space on row start and end? there is a space
 # after and before & signs, so I should probably do that > done
+
+
+###############################################################
+"""
+===============================================================
+"""
+###############################################################
+
+
+def _print_measure(val, unc, fmt = None, name = None):
+    if fmt is None:
+        # d, f or e formatting? depends on size
+        nfmt = \
+            'e' if ((unc >= 1000 or unc <= 0.001) and \
+                (val >= unc or val <= 0.001) or \
+                val >= 1000) else \
+            'd' if (unc >= 10 and val >= unc) else \
+            'f'
+
+        fmt = '.2uL'
+        fmt = fmt[:-1] + nfmt + fmt[-1]
+
+    measure = us.ufloat(val, unc)
+
+    name_str = "{{name}} = " if name is not None else ""
+
+    return print("{{name_str}}{{measure:{fmt}}}" \
+        .format(fmt = fmt) \
+        .format(name_str = name_str, measure = measure) \
+        )
