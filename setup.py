@@ -14,7 +14,6 @@ setuptools.setup(
     license = 'MIT',
     classifiers = [
         'Development Status :: 4 - Beta',
-        'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
         'Intended Audience :: Students',
         'Topic :: Data Analysis :: Build Tools',
@@ -26,7 +25,7 @@ setuptools.setup(
     project_urls = {},
     packages = setuptools.find_packages(),
     py_modules = [],
-    install_requires = ['ipython', 'numpy', 'matplotlib', 'scipy'],
+    install_requires = ['ipython', 'numpy', 'matplotlib', 'scipy', 'uncertainties'],
     python_requires = '~=3.7',
     # package_data = {}
     include_package_data = True,
