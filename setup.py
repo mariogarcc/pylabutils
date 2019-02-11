@@ -13,7 +13,7 @@ setuptools.setup(
     url = 'https://github.com/mariogarcc/pylabutils',
     license = 'MIT',
     classifiers = [
-        'Development Status :: 4 - Beta'
+        'Development Status :: 4 - Beta',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7'
         'Intended Audience :: Students',
