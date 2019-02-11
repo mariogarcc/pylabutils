@@ -230,6 +230,9 @@ def read_data(filename, **options):
     Specifies if the parser should skip whitespace after the delimiter
     default : False
 
+    > Returns:
+    The pandas.dataframe containing the data.
+
     """
 
     kwargs = dict(
@@ -514,6 +517,9 @@ def tex_table(data, data_titles, **options):
     Changes font size inside table.
     default : None
 
+    > Returns:
+    The string containing the TeX table.
+
     """
 
 
@@ -728,7 +734,7 @@ def tex_table(data, data_titles, **options):
 
     table = head + body + tail
 
-    return print(table)
+    return table
 
 # should I make formatting have space for positive numbers or remove it?
 # > added kwarg to choose

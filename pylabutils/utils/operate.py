@@ -125,6 +125,10 @@ def multisort(guide, *data, **options):
     returned object from the function call.
     default : True
 
+    > Returns:
+    The sorted data in order of input, varying depending on if you chose
+    to do an in-place sort, to include the guide, etc.
+
     """
 
     kwargs = dict(

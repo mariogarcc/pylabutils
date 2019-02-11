@@ -260,6 +260,12 @@ def fit(func, xdata, ydata, **options):
     `scipy.optimize.differential_evolution`,
     `scipy.odr.set_job`
 
+    > Returns:
+    A list of 2 x numpy.array containing the found value and uncertainty for
+    each parameter.
+
+    `list(zip([fit_parms, fit_parms_us]))`
+
     """
 
     whole_func = copy.deepcopy(func)
