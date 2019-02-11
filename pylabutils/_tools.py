@@ -1,4 +1,5 @@
 import re
+import copy
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -114,6 +115,11 @@ def _plot_fit(xdata, ydata, **options):
 
     if not kw['graph'] or not any(kw['graph']):
         return None
+
+    xloc = re.search(r'[^\w\.]x[^\w\.]', kw['func_str']).start() + 1
+    tempf = [kw['func_str'][i] if i != xloc else 'xdata' \
+        for i in range(len(kw['func_str']))]
+    kw['func_str'] = copy.deepcopy(''.join(tempf))
 
     # graph plots
     xdata = np.array(xdata)

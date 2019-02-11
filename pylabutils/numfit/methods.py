@@ -36,7 +36,7 @@ def _sqerrSum(_func_image, xdata, ydata, *parms):
 ###############################################################
 
 
-def find_beta(func, xdata, ydata, min_func, nparms, **options):
+def _find_beta(func, xdata, ydata, min_func, nparms, **options):
     """
     min_func is the function to minimize
     """
@@ -372,7 +372,7 @@ def fit(func, xdata, ydata, **options):
             sigma = kwargs['yerr'],
             absolute_sigma = kwargs['absolute_err'],
             bounds = kwargs['bounds'],
-            method = kwargs['method']
+            method = kwargs['simple_method']
             )
 
         fit_parms = sols[0]

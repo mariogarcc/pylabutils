@@ -758,7 +758,7 @@ def _print_measure(val, unc, fmt = None, name = None):
 
     measure = us.ufloat(val, unc)
 
-    name_str = "{{name}} = " if name is not None else ""
+    name_str = "{name} = ".format(name = name) if name is not None else ""
 
     return print("{{name_str}}{{measure:{fmt}}}" \
         .format(fmt = fmt) \
