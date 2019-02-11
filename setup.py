@@ -6,7 +6,7 @@ setuptools.setup(
     version = '1.0b1',
     author = 'Mario García',
     author_email = 'mariogarcc@gmail.com',
-    description = 'Some utils for working with python and latex'
+    description = 'Some utils for working with python'
         ' in a simple lab-like environment',
     long_description = open('README.md', 'r').read(),
     long_description_content_type = 'text/markdown',
@@ -15,11 +15,13 @@ setuptools.setup(
     classifiers = [
         'Development Status :: 4 - Beta',
         'Programming Language :: Python :: 3.7',
-        'Intended Audience :: Students',
-        'Topic :: Data Analysis :: Build Tools',
+        'Intended Audience :: Science/Research',
+        'Intended Audience :: Education',
+        'Topic :: Utilities',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
     ],
+    # https://test.pypi.org/pypi?%3Aaction=list_classifiers
     platforms = ['any'],
     keywords = 'laboratory utils tools',
     project_urls = {},

@@ -9,5 +9,6 @@ working with Python.
 + `numpy`
 + `matplotlib`
 + `scipy`
++ `uncertainties`
 
 **Reminder**: use `help(<item>)` for help/a description of the item.
