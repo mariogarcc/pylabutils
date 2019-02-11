@@ -21,3 +21,5 @@ in doubt (specially for the main methods).
 + read_data
 + wdir
 + multisort
+
+All of these have thorough descriptions, be sure to read them.
