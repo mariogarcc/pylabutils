@@ -32,7 +32,7 @@ color_dict = {
     'light_purple' : '#D480FF',
     'violet' : '#CC66FF',
     # :-)
-    'purple' : '#BA44F4'
+    'purple' : '#BA44F4',
     'dark_purple' : '#9619D7',
 
     'light_brown' : '#B37700',
