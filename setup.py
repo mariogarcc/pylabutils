@@ -15,7 +15,7 @@ setuptools.setup(
     classifiers = [
         'Development Status :: 4 - Beta',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.7'
+        'Programming Language :: Python :: 3.7',
         'Intended Audience :: Students',
         'Topic :: Data Analysis :: Build Tools',
         'License :: OSI Approved :: MIT License',
