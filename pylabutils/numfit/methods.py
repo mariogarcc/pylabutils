@@ -22,6 +22,8 @@ from ..utils.io import _print_measure
 
 
 def _sqerrSum(_func_image, xdata, ydata, *parms):
+    """
+    """
     warnings.filterwarnings("ignore")
     image = _func_image(xdata, *parms)
     # note how this only takes x and parameters!
@@ -38,7 +40,6 @@ def _sqerrSum(_func_image, xdata, ydata, *parms):
 
 def _find_beta(func, xdata, ydata, min_func, nparms, **options):
     """
-    min_func is the function to minimize
     """
 
     kw = dict(
@@ -254,8 +255,10 @@ def fit(func, xdata, ydata, **options):
     de_seed, de_callback, de_disp, de_polish, de_init.
 
     For information about the options just mentioned, please refer to the
-    `matplotlib.pyplot.errorbar`, `scipy.optimize` or `scipy.odr`
-    documentations.
+    following documentations:
+    `matplotlib.pyplot.errorbar`,
+    `scipy.optimize.differential_evolution`,
+    `scipy.odr.set_job`
 
     """
 
@@ -357,7 +360,7 @@ def fit(func, xdata, ydata, **options):
 
         try:
             kwargs['beta0'] = \
-                find_beta(_func_image, xdata, ydata, _de_func, len(parms))
+                _find_beta(_func_image, xdata, ydata, _de_func, len(parms))
                 # maybe change the nparms requirement other day
         except:
             print("Setting beta0 to [1.] * len(parms)")
@@ -429,6 +432,7 @@ def fit(func, xdata, ydata, **options):
             whole_func = re.sub( \
                 '{{{}}}'.format(parms[i]), str(fit_parms[i]), print_func)
         print(whole_func)
-
+        # possibility to print function with parameter uncertainties?
     # improvements could be made in all the function string naming and that...
+    # returns [(parm, parm_unc), ...]
     return list(zip([fit_parms, fit_parms_us]))

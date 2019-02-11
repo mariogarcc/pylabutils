@@ -744,6 +744,10 @@ def tex_table(data, data_titles, **options):
 
 
 def _print_measure(val, unc, fmt = None, name = None):
+    """
+    Prints a pair of values (value, uncertainty) using the `uncertainties`
+    module formatting via kwarg `fmt`.
+    """
     if fmt is None:
         # d, f or e formatting? depends on size
         nfmt = \

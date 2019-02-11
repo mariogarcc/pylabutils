@@ -267,3 +267,4 @@ class Interval:
 # To do:
 # operations/concatenation
 # n-dimensional extensibility
+# some sort of linspace using a .split method

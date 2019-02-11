@@ -76,7 +76,7 @@ def _plot_fit(xdata, ydata, **options):
 
     kw = dict(
         func_str = None, # additional kwarg, does not appear in fit()
-        # add _func_image option
+        # add _func_image option instead of specifying func by str
         yerr = None,
         xerr = None,
         absolute_err = True, # need to add this in plotting
