@@ -3,7 +3,7 @@ Auxilliary list of HEX colors for graphic purposes.
 
 Recommended usage, if wanted:
 
-`from pylabutils._colors import color_dict [as <name>]`
+`from pylabutils._tools._colors import color_dict [as <name>]`
 """
 
 __all__ = ['color_dict']
@@ -46,7 +46,3 @@ color_dict = {
     # I'll stop the jokes
     'grey' : '#909090',
 }
-
-# To do:
-# add more colors, as well as light and dark
-# versions for existing ones might be added
