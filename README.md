@@ -4,7 +4,7 @@
 aid in the making of simple data analysis reports in a lighter, more ergonomic
 and more streamlined manner.
 
-It currently offers 5 main methods:
+It currently offers 5 main methods (and an additional utility):
 
 + `fit` : the process of defining a function and setting up the optimization
   method all in one line, with added functionalities for immediate graphical
@@ -29,11 +29,14 @@ functionalities that are included in some of the "main" methods, but these
 are not really intended for active use and do not have a detailed description
 accompanying them.
 
-There is at least one important issue to be noted, that is to be fixed. As
-described in the relevant function's `__doc__`: "[...] you cannot use arbitrary
-constants or modules by reference in the function string, because of the way
-`eval()` works (it calls the scope inside a custom, private function, and the
-modules or constants declared by the user are non-existent in that scope).
+There is at least one important issue to be noted, that is to be fixed,
+regarding the `fit` method. As [described](https://github.com/mariogarcc/pylabutils/blob/64f9595c3c4a77a511cf00339541776c8e435a8d/pylabutils/numfit/fit.py#L52)
+in the function's `__doc__`:
+
+> \[...\] you cannot use arbitrary constants or modules by reference in the
+function string, because of the way `eval()` works (it calls the scope
+inside a custom, private function, and the modules or constants declared
+by the user are non-existent in that scope).
 What this essentially means is that you are, until this issue is fixed,
 restricted to the use of `math`, `numpy` as 'np' and `scipy.constants`
-as 'scs' attributes, e.g. `'y = scs.R + {A} * np.exp(math.e + {B}*x)'`"
+as 'scs' attributes, e.g. `'y = scs.R + {A} * np.exp(math.e + {B}*x)'`
