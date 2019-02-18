@@ -106,7 +106,7 @@ def fit(func, xdata, ydata, **options):
     be either an array with the length equal to the number of parameters, or
     a scalar (in which case the bound is taken to be the same for all
     parameters.) Use np.inf with an appropriate sign to disable bounds on all
-    or some parameters.
+    or some parameters, but np.inf does not work with `beta0` set to `'find'`.
 
     default : `(-np.inf, np.inf)`
 
@@ -335,7 +335,7 @@ def fit(func, xdata, ydata, **options):
     # checks if list kwargs are introduced accordingly
     if len([graph == True for graph in (kwargs['graph'] if \
             type(kwargs['graph']) == list else [kwargs['graph']])]) == 1:
-        for option in ['sizes', 'colors', 'titles', 'labels', 'markers', \
+        for option in ['sizes', 'colors', 'labels', 'markers', \
                 'linestyles']:
             if type(kwargs[option]) != list:
                 kwargs[option] = list(kwargs[option])
@@ -358,10 +358,17 @@ def fit(func, xdata, ydata, **options):
             # !!!!!! the last parameter *values* -- this is VERY confusing
 
         try:
+            if kwargs['bounds'] == (-np.inf, np.inf):
+                kwargs['bounds'] == (-1e9, 1e9)
+            elif kwargs['bounds'] == None:
+                xy_max = max(max(abs(np.array(xdata))), max(abs(np.array(ydata))))
+                kwargs['bounds'] = (-xy_max, xy_max)
             kwargs['beta0'] = \
-                _find_beta(_func_image, xdata, ydata, _de_func, len(parms))
-                # maybe change the nparms requirement other day
-        except:
+                _find_beta(_func_image, xdata, ydata, _de_func, len(parms),
+                    bounds = kwargs['bounds'])
+                # maybe change the nparms requirement
+        except Exception as e:
+            print("Error raised: {!r}".format(e))
             print("Setting beta0 to [1.] * len(parms)")
             kwargs['beta0'] = [1.] * len(parms)
 

@@ -62,7 +62,7 @@ def _ms_dalt_ind(item):
     Sorts elements in a sign-alternating descending order and returns a list
     of their previous indices compared to their current ones.
 
-    
+
     \> Parameters:
 
     `item` : *array-like*

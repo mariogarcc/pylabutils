@@ -27,9 +27,9 @@ def multisort(guide, *data, **options):
 
 
     `criterion` : *str; optional*
-    
+
     Method for sorting the `guide`.
-    
+
     default : `'asc'`
 
 

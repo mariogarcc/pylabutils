@@ -1,5 +1,9 @@
 import re
 
+import math
+import numpy as np
+import scipy.constants as scs
+
 __all__ = ['_get_image']
 
 # note that this works only with 'x' as the independent variable

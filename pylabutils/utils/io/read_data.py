@@ -297,9 +297,9 @@ def read_data(filename, **options):
 
             except ValueError as e:
                 if "Unable to convert" in str(e):
-                    print("""Invalid value encountered in file. Check if there 
-                          are any inf, NaN, or similars in your data. Columns 
-                          longer than others can also be a problem.""")
+                    print("Invalid value encountered in file. Check if there"
+                          " are any inf, NaN, or similars in your data."
+                          " Columns longer than others can also be a problem.")
                     raise e
                 else:
                     raise e
@@ -361,7 +361,7 @@ def read_data(filename, **options):
         raise TypeError("file type readability not yet implemented.")
 
     # second part of criteria for reading files: allow horizontality
-    temp = file_data
+    temp = copy.deepcopy(file_data)
 
     # default layout is vertical||columns which requires no action
     if kwargs['layout'] in "horizontal||rows":

@@ -11,9 +11,9 @@ __all__ = ['color_dict']
 color_dict = {
     'light_blue' : '#60A0FF',
     'blue' : '#3385FF',
-    'dark_blue': '#0A4AAA',
+    'dark_blue' : '#0A4AAA',
 
-    'light_red': '#FC6A4B',
+    'light_red' : '#FC6A4B',
     'red' : '#FB4A24',
     'dark_red' : '#B22305',
 

@@ -1,8 +1,12 @@
 import re
 import copy
 
+import math
 import numpy as np
+import scipy.constants as scs
 import matplotlib.pyplot as plt
+
+from ..._tools._colors import color_dict
 
 
 __all__ = ['_plot_fit']
@@ -13,7 +17,6 @@ def _plot_fit(xdata, ydata, **options):
     """
     Plots for fit functions.
     """
-    from ..._tools._colors import color_dict
 
     kw = dict(
         func_str = None, # additional kwarg, does not appear in fit()
@@ -24,6 +27,8 @@ def _plot_fit(xdata, ydata, **options):
         graph = [True, True, False],
         errorbars = True,
         sizes = [(6, 4), (6, 4), (6, 4)],
+        xlim = None,
+        ylim = None,
         split = True,
         save = False,
         colors = ['blue', 'red', 'orange'],
@@ -45,7 +50,7 @@ def _plot_fit(xdata, ydata, **options):
         fillstyle = 'full',
     ) # default kwargs values
 
-    defaults = kw
+    defaults = copy.deepcopy(kw)
     kw.update(options)
 
     if type(kw['func_str']) != str:
@@ -101,8 +106,7 @@ def _plot_fit(xdata, ydata, **options):
             capsize = capsizes[i],
             color = \
                 (color_dict[kw['colors'][j]] \
-                if (kw['colors'][j] in color_dict.keys() \
-                    and type(kw['colors']) == list) \
+                if kw['colors'][j] in color_dict.keys() \
                 else kw['colors'][j]) \
                 if kw['colors'] != defaults['colors'] \
                 else defaults['colors'][i],
@@ -128,8 +132,13 @@ def _plot_fit(xdata, ydata, **options):
             )
             # **kwargs, but careful not to override things
 
+        if kw['xlim']:
+            plt.xlim(kw['xlim'])
+        if kw['ylim']:
+            plt.ylim(kw['ylim'])
+
         if type(kw['titles']) == str:
-            plt.title(r'{}'.format(kw['title']))
+            plt.title(r'{}'.format(kw['titles']))
         elif type(kw['titles']) == list \
                 and type(kw['titles'][j]) == str:
             plt.title(r'{}'.format(kw['titles'][j] \
@@ -154,7 +163,7 @@ def _plot_fit(xdata, ydata, **options):
 
             elif kw['split'] == False and kw['save'] == True:
                 plt.savefig('figure.pdf')
-                
+
             else:
                 if type(kw['save']) == str:
                     if '.' in kw['save']:

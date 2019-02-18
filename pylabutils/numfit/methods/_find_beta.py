@@ -1,4 +1,5 @@
 import numpy as np
+import scipy.optimize as so
 
 __all__ = ['_find_beta']
 
@@ -9,8 +10,8 @@ def _find_beta(func, xdata, ydata, min_func, nparms, **options):
     """
 
     kw = dict(
-        bounds = (-1000, 1000),
-        fb_method = 'differential_evolution',
+        bounds = (-1e9, 1e9),
+        fb_method = 'differential_evolution', # later eval
         de_strategy = 'best1bin',
         de_maxiter = None,
         de_popsize = 15,
@@ -57,7 +58,8 @@ def _find_beta(func, xdata, ydata, min_func, nparms, **options):
             )
             # you can introduce all kwargs in one go using comprehension
             # with keys, values removing 'de_' ([3:])
-        except:
+        except Exception as e:
+            print("Error raised: {!r}".format(e))
             raise ValueError("couldn't find beta")
 
         return result.x
