@@ -21,6 +21,8 @@ def read_data(filename, **options):
 
     `layout` : *str; optional*
     Specified if your data layout follows a vertical or horizontal pattern.
+    If the layout is horizontal avoid having equal names for more than one row
+    or an error will be raised.
 
     default : `'vertical'`
 

@@ -45,9 +45,19 @@ def fit(func, xdata, ydata, **options):
 
     e.g.:
 
-    `'y = {A} * numpy.exp( x * {B} ) + {C}'`
+    `'y = {A} * np.exp(x * {B}) + {C}'`
 
-    `'y = {C_2} * x ** 2 + {C_1} * x + {C_0}'`
+    `'y = {C_2}*x** 2 + {C_1}*x + {C_0}'`
+
+    There is a known issue: you cannot use arbitrary constants or modules by
+    reference in the function string, because of the way `eval()` works
+    (it calls the scope inside a custom, private function, and the modules or
+    constants declared by the user are non-existent in that scope).
+    What this essentially means is that you are, until this issue is fixed,
+    restricted to the use of `math`, `numpy` as 'np' and `scipy.constants`
+    as 'scs' attributes, e.g.:
+
+    `'y = scs.R + {A} * np.exp(math.e + {B}*x)'`
 
 
     `xdata` : *array-like*
@@ -359,7 +369,7 @@ def fit(func, xdata, ydata, **options):
 
         try:
             if kwargs['bounds'] == (-np.inf, np.inf):
-                kwargs['bounds'] == (-1e9, 1e9)
+                kwargs['bounds'] = (-1e9, 1e9)
             elif kwargs['bounds'] == None:
                 xy_max = max(max(abs(np.array(xdata))), max(abs(np.array(ydata))))
                 kwargs['bounds'] = (-xy_max, xy_max)

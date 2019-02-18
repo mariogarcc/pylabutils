@@ -9,6 +9,10 @@ Recommended usage, if wanted:
 __all__ = ['color_dict']
 
 color_dict = {
+    """
+    Auxilliary list of HEX colors for graphic purposes.
+    """
+    
     'light_blue' : '#60A0FF',
     'blue' : '#3385FF',
     'dark_blue' : '#0A4AAA',

@@ -28,3 +28,12 @@ There are, in addition, some "private" methods that can give some
 functionalities that are included in some of the "main" methods, but these
 are not really intended for active use and do not have a detailed description
 accompanying them.
+
+There is at least one important issue to be noted, that is to be fixed. As
+described in the relevant function's `__doc__`: "[...] you cannot use arbitrary
+constants or modules by reference in the function string, because of the way
+`eval()` works (it calls the scope inside a custom, private function, and the
+modules or constants declared by the user are non-existent in that scope).
+What this essentially means is that you are, until this issue is fixed,
+restricted to the use of `math`, `numpy` as 'np' and `scipy.constants`
+as 'scs' attributes, e.g. `'y = scs.R + {A} * np.exp(math.e + {B}*x)'`"
