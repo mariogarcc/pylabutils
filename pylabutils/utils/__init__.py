@@ -4,9 +4,13 @@ Utilitary tools.
 
 from . import io
 from .io import *
-from . import operate
-from .operate import *
 
-__all__ = []
+from . import multisort
+from .multisort import *
+
+from . import Interval
+from .Interval import *
+
+
+__all__ = ['multisort', 'Interval']
 __all__ += io.__all__
-__all__ += operate.__all__
