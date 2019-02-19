@@ -1,7 +1,7 @@
 import re
 import pandas
 
-def _add_cols(df: pandas.DataFrame) -> None:
+def _add_cols(df: pandas.DataFrame, scope = None) -> None:
     """
     A function to add new columns to a dataframe based on interactive user
     input.
@@ -49,7 +49,11 @@ def _add_cols(df: pandas.DataFrame) -> None:
             )
     # substituting references
 
-    col_arg = eval(arg)
+    if scope is not None:
+        scope[0].update(globals())
+        scope[1].update(locals())
+
+    col_arg = eval(arg, scope[0], scope[1])
     # pandas.Series for type checking
     df[col_name] = col_arg
     # creating column

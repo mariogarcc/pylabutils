@@ -1,9 +1,7 @@
 import re
 import copy
 
-import math
 import numpy as np
-import scipy.constants as scs
 import matplotlib.pyplot as plt
 
 from ..._tools._colors import color_dict
@@ -13,7 +11,7 @@ __all__ = ['_plot_fit']
 
 
 
-def _plot_fit(xdata, ydata, **options):
+def _plot_fit(xdata, ydata, scope = None, **options):
     """
     Plots for fit functions.
     """
@@ -81,9 +79,17 @@ def _plot_fit(xdata, ydata, **options):
 
     dense_curve = re.sub('xdata', 'xvals', kw['func_str'])
 
+    if scope is not None:
+        scope[0].update(globals())
+        scope[1].update(locals())
+
     xs = [xdata, xvals, xdata]
     xerrs = [xerr, None, xerr]
-    ys = [ydata, eval(dense_curve), eval(kw['func_str'])]
+    ys = [
+          ydata,
+          eval(dense_curve, scope[0], scope[1]),
+          eval(kw['func_str'], scope[0], scope[1])
+         ]
     yerrs = [yerr, None, yerr]
 
     capsizes = [kw['capsize'], None, kw['capsize']]

@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(
     name = 'pylabutils',
-    version = '1.0',
+    version = '1.0.1',
     author = 'Mario García',
     author_email = 'mariogarcc@gmail.com',
     description = 'Some utils for working with python'

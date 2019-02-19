@@ -21,7 +21,7 @@ __all__ = ['fit']
 
 
 
-def fit(func, xdata, ydata, **options):
+def fit(func, xdata, ydata, scope = None, **options):
     """
     Adjusts (x, y) data to a given curve with unknown parameter values with
     optional convenient result graphing.
@@ -357,8 +357,13 @@ def fit(func, xdata, ydata, **options):
     # changing custom independent variable to 'x' to work with it later
     func = _ffixx(func, kwargs['custom_x'])
 
+    if scope is not None:
+        scope[0].update(globals())
+        scope[1].update(locals())
+
     def _func_image(x, *values):
-        return _get_image(x, *values, func_str = func, parms = parms)
+        return _get_image(x, *values, func_str = func, parms = parms,
+            scope = scope)
     # nice workaround :-)
 
     if kwargs['beta0'] == 'find':
@@ -430,8 +435,13 @@ def fit(func, xdata, ydata, **options):
     if kwargs['graph'] == True:
         kwargs['graph'] = [True, True, False]
 
+    if scope is not None:
+        scope[0].update(globals())
+        scope[1].update(locals())
+
     if kwargs['graph'] != False and any(kwargs['graph']):
-        _plot_fit(xdata, ydata, func_str = fit_func, **kwargs)
+        _plot_fit(xdata, ydata, func_str = fit_func, scope = scope,
+            **kwargs)
 
     # print the function?
     if kwargs['printf']:

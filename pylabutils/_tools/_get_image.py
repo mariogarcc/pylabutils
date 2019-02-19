@@ -1,14 +1,10 @@
 import re
 
-import math
-import numpy as np
-import scipy.constants as scs
-
 __all__ = ['_get_image']
 
 # note that this works only with 'x' as the independent variable
 # returns callable, for static typing
-def _get_image(x, *values, func_str = None, parms = None):
+def _get_image(x, *values, func_str = None, parms = None, scope = None):
     """
     Gets the image of a string function that complies with the criteria stated
     in the `fit` method.
@@ -35,9 +31,13 @@ def _get_image(x, *values, func_str = None, parms = None):
         func_str = re.sub( \
             '{{{}}}'.format(parms[i]), str(values[i]), func_str)
 
+    if scope is not None:
+        scope[0].update(globals())
+        scope[1].update(locals())
+
     if '=' in func_str:
-        image = eval(func_str[func_str.find('=')+1:])
+        image = eval(func_str[func_str.find('=')+1:], scope[0], scope[1])
     else:
-        image = eval(func_str)
+        image = eval(func_str, scope[0], scope[1])
 
     return image
