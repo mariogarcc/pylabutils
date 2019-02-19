@@ -11,7 +11,7 @@ __all__ = ['_plot_fit']
 
 
 
-def _plot_fit(xdata, ydata, scope = None, **options):
+def _plot_fit(xdata, ydata, scope = (globals(), locals()), **options):
     """
     Plots for fit functions.
     """
@@ -79,9 +79,8 @@ def _plot_fit(xdata, ydata, scope = None, **options):
 
     dense_curve = re.sub('xdata', 'xvals', kw['func_str'])
 
-    if scope is not None:
-        scope[0].update(globals())
-        scope[1].update(locals())
+    scope[0].update(globals())
+    scope[1].update(locals())
 
     xs = [xdata, xvals, xdata]
     xerrs = [xerr, None, xerr]

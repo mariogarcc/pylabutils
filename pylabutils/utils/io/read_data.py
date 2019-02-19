@@ -11,7 +11,7 @@ __all__ = ['read_data']
 
 
 
-def read_data(filename, scope = None, **options):
+def read_data(filename, scope = (globals(), locals()), **options):
     """
     Reads a table-like file containing data and contains it in a
     `pandas.DataFrame` that behaves like a dictionary.
@@ -24,9 +24,10 @@ def read_data(filename, scope = None, **options):
     Name of the file data is to be extracted from in the current directory.
 
 
-    `scope` : *`None or (globals(), locals())`; optional*
+    `scope` : *`(globals(), locals())`; optional*
 
-    Needs to be used as specified above when making the function call to allow
+    Needs to be used as specified above **when making the function call** (in
+    this case, only if you're using the `mod = True` keyword argument) to allow
     for local namespace variables/modules to be used in the strings that are
     evaluated by the methods.
 
@@ -402,9 +403,8 @@ def read_data(filename, scope = None, **options):
     data = copy.deepcopy(temp)
     del temp
 
-    if scope is not None:
-        scope[0].update(globals())
-        scope[1].update(locals())
+    scope[0].update(globals())
+    scope[1].update(locals())
 
     if kwargs['mod']:
         _add_cols(data, scope = scope)

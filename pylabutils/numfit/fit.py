@@ -21,7 +21,7 @@ __all__ = ['fit']
 
 
 
-def fit(func, xdata, ydata, scope = None, **options):
+def fit(func, xdata, ydata, scope = (globals(), locals()), **options):
     """
     Adjusts (x, y) data to a given curve with unknown parameter values with
     optional convenient result graphing.
@@ -60,11 +60,11 @@ def fit(func, xdata, ydata, scope = None, **options):
     y-axis data.
 
 
-    `scope` : *`None or (globals(), locals())`; optional*
+    `scope` : *`(globals(), locals())`; optional*
 
-    Needs to be used as specified above when making the function call to allow
-    for local namespace variables/modules to be used in the strings that are
-    evaluated by the methods.
+    Needs to be used as specified above **when making the function call** to
+    allow for local namespace variables/modules to be used in the strings that
+    are evaluated by the methods.
 
 
     `yerr` : *array-like; optional*
@@ -354,9 +354,8 @@ def fit(func, xdata, ydata, scope = None, **options):
     # changing custom independent variable to 'x' to work with it later
     func = _ffixx(func, kwargs['custom_x'])
 
-    if scope is not None:
-        scope[0].update(globals())
-        scope[1].update(locals())
+    scope[0].update(globals())
+    scope[1].update(locals())
 
     def _func_image(x, *values):
         return _get_image(x, *values, func_str = func, parms = parms,
@@ -432,9 +431,8 @@ def fit(func, xdata, ydata, scope = None, **options):
     if kwargs['graph'] == True:
         kwargs['graph'] = [True, True, False]
 
-    if scope is not None:
-        scope[0].update(globals())
-        scope[1].update(locals())
+    scope[0].update(globals())
+    scope[1].update(locals())
 
     if kwargs['graph'] != False and any(kwargs['graph']):
         _plot_fit(xdata, ydata, func_str = fit_func, scope = scope,
