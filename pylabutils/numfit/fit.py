@@ -49,16 +49,6 @@ def fit(func, xdata, ydata, scope = None, **options):
 
     `'y = {C_2}*x** 2 + {C_1}*x + {C_0}'`
 
-    There is a known issue: you cannot use arbitrary constants or modules by
-    reference in the function string, because of the way `eval()` works
-    (it calls the scope inside a custom, private function, and the modules or
-    constants declared by the user are non-existent in that scope).
-    What this essentially means is that you are, until this issue is fixed,
-    restricted to the use of `math`, `numpy` as 'np' and `scipy.constants`
-    as 'scs' attributes, e.g.:
-
-    `'y = scs.R + {A} * np.exp(math.e + {B}*x)'`
-
 
     `xdata` : *array-like*
 
@@ -68,6 +58,13 @@ def fit(func, xdata, ydata, scope = None, **options):
     `y` : *array-like*
 
     y-axis data.
+
+
+    `scope` : *`None or (globals(), locals())`; optional*
+
+    Needs to be used as specified above when making the function call to allow
+    for local namespace variables/modules to be used in the strings that are
+    evaluated by the methods.
 
 
     `yerr` : *array-like; optional*

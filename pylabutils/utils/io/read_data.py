@@ -19,7 +19,20 @@ def read_data(filename, scope = None, **options):
 
     \> Parameters:
 
+    `filename` : *str*
+
+    Name of the file data is to be extracted from in the current directory.
+
+
+    `scope` : *`None or (globals(), locals())`; optional*
+
+    Needs to be used as specified above when making the function call to allow
+    for local namespace variables/modules to be used in the strings that are
+    evaluated by the methods.
+
+
     `layout` : *str; optional*
+
     Specified if your data layout follows a vertical or horizontal pattern.
     If the layout is horizontal avoid having equal names for more than one row
     or an error will be raised.
