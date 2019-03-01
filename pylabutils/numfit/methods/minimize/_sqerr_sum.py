@@ -1,5 +1,6 @@
 import numpy as np
 # try to get rid of numpy
+__all__ = ['_sqerr_sum']
 
 def _sqerr_sum(_func_image, xdata, ydata, *parms):
     """

@@ -5,11 +5,9 @@ Utilitary tools.
 from . import io
 from .io import *
 
-from . import multisort
-from .multisort import *
+from .multisort import multisort
 
-from . import Interval
-from .Interval import *
+from .Interval import Interval
 
 
 __all__ = ['multisort', 'Interval']
