@@ -30,7 +30,7 @@ def _get_image(x, *values, func_str = None, parms = None,
     # substituting the parameters indicated in the function for their values
     for i in range(len(parms)):
         func_str = re.sub( \
-            '{{{}}}'.format(parms[i]), str(values[i]), func_str)
+            f'{{{parms[i]}}}', str(values[i]), func_str)
 
     scope[0].update(globals())
     scope[1].update(locals())

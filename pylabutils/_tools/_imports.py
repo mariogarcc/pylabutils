@@ -28,7 +28,7 @@ class ImportGroup:
         module = __import__(
             str(module), globals(), locals(), [str(method)], 0
             )
-        method = eval("module.{}".format(str(method)))
+        method = eval(f"module.{str(method)}")
         # cannot work around using eval or exec, that I know of
         return method
 

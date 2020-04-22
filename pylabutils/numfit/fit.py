@@ -379,7 +379,7 @@ def fit(func, xdata, ydata, scope = (globals(), locals()), **options):
                     bounds = kwargs['bounds'])
                 # maybe change the nparms requirement
         except Exception as e:
-            print("Error raised: {!r}".format(e))
+            print(f"Error raised: {e!r}")
             print("Setting beta0 to [1.] * len(parms)")
             kwargs['beta0'] = [1.] * len(parms)
 
@@ -418,7 +418,7 @@ def fit(func, xdata, ydata, scope = (globals(), locals()), **options):
     fit_func = copy.deepcopy(func)
     for i in range(len(fit_parms)):
         fit_func = re.sub( \
-            '{{{}}}'.format(parms[i]), str(fit_parms[i]), fit_func)
+            f'{{{parms[i]}}}', str(fit_parms[i]), fit_func)
 
 
     # new: introducing uncertainties module as requirement (formatting only)
@@ -443,7 +443,7 @@ def fit(func, xdata, ydata, scope = (globals(), locals()), **options):
         print_func = copy.deepcopy(whole_func)
         for i in range(len(fit_parms)):
             whole_func = re.sub( \
-                '{{{}}}'.format(parms[i]), str(fit_parms[i]), print_func)
+                f'{{{parms[i]}}}', str(fit_parms[i]), print_func)
         print(whole_func)
         # possibility to print function with parameter uncertainties?
     # improvements could be made in all the function string naming and that...

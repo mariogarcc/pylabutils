@@ -40,8 +40,7 @@ class Interval:
         match = re.search(interval_re, interval_str)
         if match is None:
             raise ValueError(
-            'got an incorrect string representation of an interval: {!r}'
-            .format(interval_str)
+            f'got an incorrect string representation of an interval: {interval_str!r}'
             )
 
         opening_bracket, begin, end, closing_bracket = match.groups()
@@ -59,13 +58,12 @@ class Interval:
 
 
     def __repr__(self):
-        return 'Interval({!r})'.format(str(self))
+        return f'Interval({str(self)!r})'
 
     def __str__(self):
         opening_bracket = '[' if self.begin_included else '('
         closing_bracket = ']' if self.end_included else ')'
-        return '{}{}, {}{}'.format(opening_bracket, self.begin, \
-            self.end, closing_bracket)
+        return f'{opening_bracket}{self.begin}, {self.end}{closing_bracket}'
 
     def __contains__(self, number):
         if self.begin < number < self.end:

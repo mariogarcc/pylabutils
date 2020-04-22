@@ -74,8 +74,7 @@ def multisort(guide, *data, **options):
         if value in options.keys() and type(kwargs[value]) \
                 != type(options[value]):
             # quick check for kwarg validness
-            raise TypeError("{!r} is an invalid value for `{!s}`"
-                .format(options[value], value))
+            raise TypeError(f"{options[value]!r} is an invalid value for `{value!s}`")
 
     try:
         method = eval([name for name in ms_method_names \
@@ -87,7 +86,7 @@ def multisort(guide, *data, **options):
 
     sorting_indices = method(guide)
     if kwargs['showres']:
-        print(("Resulting indices after sorting: {}").format(sorting_indices))
+        print(f"Resulting indices after sorting: {sorting_indices}")
 
     if len(data) == 1 and type(data[0][0]) in (list, tuple, np.ndarray):
         data = data[0]

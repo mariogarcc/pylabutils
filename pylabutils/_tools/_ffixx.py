@@ -14,4 +14,4 @@ def _ffixx(func_str : str, custom_x : str) -> str:
     if custom_x:
         x_str = func_str[custom_x.start():custom_x.end()]
     # changing it for 'x'
-    return re.sub(r'\[{}\]'.format(x_str), 'x', func_str)
+    return re.sub(f'\[{x_str}\]', 'x', func_str)

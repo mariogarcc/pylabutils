@@ -150,8 +150,7 @@ def tex_table(data, data_titles, **options) -> str:
             for option in _tex_table_values.keys()]): # fast check
         for option in _tex_table_values.keys():
             if kwargs[option] not in _tex_table_values[option]:
-                raise ValueError("'{!r}' is not a valid value for '{!s}'" \
-                    .format(kwargs[option], option))
+                raise ValueError(f"'{kwargs[option]!r}' is not a valid value for '{option!s}'")
 
     else:
         if len(data) == 1:
@@ -169,11 +168,10 @@ def tex_table(data, data_titles, **options) -> str:
     # argument validation
 
     head  = '' \
-        + '\\begin{{table}}[{}]\n'.format(kwargs['fit']) \
-        + '\\{}\n'.format(kwargs['font_size_type']) \
-            * (kwargs['font_size_type'] is not None) \
-        + '\\{}\n'.format(kwargs['loc']) \
-        + '\\begin{tabular}'
+        + f"\\begin{{table}}[{kwargs['fit']}]\n" \
+        + f"\\{kwargs['font_size_type']}\n" * (kwargs['font_size_type'] is not None) \
+        + f"\\{kwargs['loc']}\n" \
+        + "\\begin{tabular}"
         # obligatory
 
     prec = kwargs['prec']

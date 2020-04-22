@@ -43,8 +43,8 @@ def _add_cols(df: pandas.DataFrame, scope = (globals(), locals())) -> None:
 
     for i in range(len(ref_cols)):
         arg = re.sub(
-            '{{{}}}'.format(ref_cols[i]),
-            'df[\'{}\']'.format(ref_cols[i]),
+            f'{{{ref_cols[i]}}}',
+            f'df[\'{ref_cols[i]}\']',
             arg
             )
     # substituting references
