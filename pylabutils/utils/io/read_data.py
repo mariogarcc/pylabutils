@@ -1,4 +1,3 @@
-import re
 import copy
 import codecs
 import warnings
@@ -257,7 +256,7 @@ def read_data(filename, scope = (globals(), locals()), **options):
 
 
     # reading file as a dataframe with pandas
-    if re.search(r'(\.xlsx)$', filename):
+    if filename.endswith('.xlsx'):
         file_data = pd.read_excel(filename,
             sheet_name = kwargs['sheet_name'],
             usecols = kwargs['cols'],
@@ -271,34 +270,12 @@ def read_data(filename, scope = (globals(), locals()), **options):
             squeeze = kwargs['squeeze'],
             )
 
-    elif re.search(r'(\.csv)$', filename):
-        with codecs.open(filename, 'rU', kwargs['encoding']) as doc:
-
-            temp = pd.read_csv(doc)
-            cols = range(len(temp.columns))
-            rows = [row for index, row in temp.iterrows()]
-
+    elif list(filter(filename.endswith, ['.csv', '.txt', '.md'])):
         with codecs.open(filename, 'rU', kwargs['encoding']) as doc:
             try:
                 file_data = pd.read_csv(doc,
-                    sep = kwargs['delim'] if kwargs['delim'] \
-                        is not None else( \
-                            ', ' if all([', ' in row[col] for row in rows \
-                                for col in cols]) \
-                        else ('\t' if all(['\t' in row[col] for \
-                            row in rows for col in cols]) \
-                        else (',' if all([',' in row[col] for \
-                            row in rows for col in cols]) \
-                            else ' '))),
-                    lineterminator = kwargs['line_end'] if kwargs['line_end'] \
-                        is not None else( \
-                            '\n' if all(['\n' in row[col] for row in rows \
-                                for col in cols]) \
-                        else ('\r' if all(['\r' in row[col] for \
-                            row in rows for col in cols]) \
-                        else ('\r\n' if all(['\r\n' in row[col] for \
-                            row in rows for col in cols]) \
-                            else None))),
+                    sep = kwargs['delim'] or ',',
+                    lineterminator = kwargs['line_end'],
                     usecols = kwargs['cols'],
                     dtype = kwargs['dtype'],
                     engine = kwargs['engine'],
@@ -319,59 +296,6 @@ def read_data(filename, scope = (globals(), locals()), **options):
                     raise e
                 else:
                     raise e
-            finally:
-                del temp, cols, rows
-
-
-    elif re.search(r'(\.txt|\.md)$', filename):
-        with codecs.open(filename, 'rU', kwargs['encoding']) as doc:
-
-            temp = pd.read_table(doc)#, engine = 'python')
-            cols = range(len(temp.columns))
-            rows = [row for index, row in temp.iterrows()]
-        # have to open again, otherwise throws EmptyDataError, don't know why
-        with codecs.open(filename, 'rU', kwargs['encoding']) as doc:
-            try:
-                file_data = pd.read_table(doc,
-                    sep = kwargs['delim'] if kwargs['delim'] \
-                        is not None else( \
-                            ', ' if all([', ' in row[col] for row in rows \
-                                for col in cols]) \
-                        else ('\t' if all(['\t' in row[col] for \
-                            row in rows for col in cols]) \
-                        else (',' if all([',' in row[col] for \
-                            row in rows for col in cols]) \
-                            else ' '))),
-                    lineterminator = kwargs['line_end'] if kwargs['line_end'] \
-                        is not None else( \
-                            '\n' if all(['\n' in row[col] for row in rows \
-                                for col in cols]) \
-                        else ('\r' if all(['\r' in row[col] for \
-                            row in rows for col in cols]) \
-                        else ('\r\n' if all(['\r\n' in row[col] for \
-                            row in rows for col in cols]) \
-                            else None))),
-                    usecols = kwargs['cols'],
-                    dtype = kwargs['dtype'],
-                    engine = kwargs['engine'],
-                    nrows = kwargs['nrows'],
-                    skiprows = kwargs['skiprows'],
-                    skipfooter = kwargs['skipfooter'],
-                    decimal = kwargs['decimal'],
-                    thousands = kwargs['thousands'],
-                    skipinitialspace = kwargs['skipinitialspace'],
-                    squeeze = kwargs['squeeze'],
-                    )
-
-            except ValueError as e:
-                if "Unable to convert" in str(e):
-                    print("Invalid value encountered in file. Check if there"
-                          " are any inf, NaN, or similars in your data.")
-                    raise e
-                else:
-                    raise e
-            finally:
-                del temp, cols, rows
 
     else:
         raise TypeError("file type readability not yet implemented.")

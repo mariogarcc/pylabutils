@@ -59,13 +59,13 @@ def _find_beta(func, xdata, ydata, min_func, nparms, **options):
             # you can introduce all kwargs in one go using comprehension
             # with keys, values removing 'de_' ([3:])
         except Exception as e:
-            print("Error raised: {!r}".format(e))
+            print(f"Error raised: {e!r}")
             raise ValueError("couldn't find beta")
 
         return result.x
 
     else:
-        print("{!r} is not implemented yet".format(kw['fb_method']))
+        print(f"{kw['fb_method']!r} is not implemented yet")
         return
 
     return
