@@ -117,3 +117,4 @@ def multisort(guide, *data, **options):
 
 # try implementing yield, with, contextmanager, for result returning
 #   to avoid use of temp items
+# missing aalt method

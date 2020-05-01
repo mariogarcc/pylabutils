@@ -76,5 +76,5 @@ class Interval:
 
 # To do:
 # operations/concatenation
-# n-dimensional extensibility
-# some sort of linspace using a .split method
+# n-dimensional extensibility -> n-dimensional cages
+# some sort of linspace using a .split method -> dividing interval in various
