@@ -98,34 +98,34 @@ def _plot_fit(xdata, ydata, scope = (globals(), locals()), **options):
     # I want to get the indices for the selected graphs
     graphs = [graph for graph in range(len(kw['graph'])) \
         if kw['graph'][graph] == True]
-    for i, j in zip(graphs, range(len(graphs))):
+    for i, j in enumerate(graphs):
     # amazing implementation :)
 
         if kw['split'] == True:
-            plt.figure(figsize = kw['sizes'][j] if kw['sizes'] \
-                != defaults['sizes'] else defaults['sizes'][i])
+            plt.figure(figsize = kw['sizes'][i] if kw['sizes'] \
+                != defaults['sizes'] else defaults['sizes'][j])
 
         plt.errorbar(
-            xs[i], ys[i],
-            yerr = yerrs[i], xerr = xerrs[i],
-            capsize = capsizes[i],
+            xs[j], ys[j],
+            yerr = yerrs[j], xerr = xerrs[j],
+            capsize = capsizes[j],
             color = \
-                (color_dict[kw['colors'][j]] \
-                if kw['colors'][j] in color_dict.keys() \
-                else kw['colors'][j]) \
+                (color_dict[kw['colors'][i]] \
+                if kw['colors'][i] in color_dict.keys() \
+                else kw['colors'][i]) \
                 if kw['colors'] != defaults['colors'] \
-                else defaults['colors'][i],
-            marker = kw['markers'][j] if kw['markers'] \
-                != defaults['markers'] else defaults['markers'][i],
-            linestyle = kw['linestyles'][j] if kw['linestyles'] \
-                != defaults['linestyles'] else defaults['linestyles'][i],
+                else defaults['colors'][j],
+            marker = kw['markers'][i] if kw['markers'] \
+                != defaults['markers'] else defaults['markers'][j],
+            linestyle = kw['linestyles'][i] if kw['linestyles'] \
+                != defaults['linestyles'] else defaults['linestyles'][j],
             label = r'{}'.format(
-                (kw['labels'][j] if (
+                (kw['labels'][i] if (
                     type(kw['labels']) == list \
                     and len(kw['labels']) == 3 \
                     and kw['split'] == True) \
                 else kw['labels']) if kw['labels'] \
-                != defaults['labels'] else defaults['labels'][i]),
+                != defaults['labels'] else defaults['labels'][j]),
             linewidth = kw['linewidth'],
             ecolor = kw['ecolor'],
             elinewidth = kw['elinewidth'],
@@ -145,10 +145,10 @@ def _plot_fit(xdata, ydata, scope = (globals(), locals()), **options):
         if type(kw['titles']) == str:
             plt.title(r'{}'.format(kw['titles']))
         elif type(kw['titles']) == list \
-                and type(kw['titles'][j]) == str:
-            plt.title(r'{}'.format(kw['titles'][j] \
+                and type(kw['titles'][i]) == str:
+            plt.title(r'{}'.format(kw['titles'][i] \
                 if kw['titles'] != defaults['titles'] \
-                else defaults['titles'][i]))
+                else defaults['titles'][j]))
 
         if type(kw['axis_labels'][0]) == str:
             plt.xlabel(r'{}'.format(kw['axis_labels'][0]))
@@ -175,14 +175,14 @@ def _plot_fit(xdata, ydata, scope = (globals(), locals()), **options):
                         wf = re.search(r'\.', kw['save']).start()
                         # wf, like where_format, where the . is in the savename
                         plt.savefig(
-                            kw['save'][:wf] + fignames[j] + kw['save'][wf:])
+                            kw['save'][:wf] + fignames[i] + kw['save'][wf:])
                     else:
-                        plt.savefig(kw['save'] + fignames[j] + '.pdf')
+                        plt.savefig(kw['save'] + fignames[i] + '.pdf')
 
                 elif type(kw['save']) == list \
                     and len(kw['save']) == len(graphs):
-                    plt.savefig('{}{{}}'.format(kw['save'][j])).format(
-                        '.pdf' if '.' not in kw['save'][j] else '')
+                    plt.savefig('{}{{}}'.format(kw['save'][i])).format(
+                        '.pdf' if '.' not in kw['save'][i] else '')
 
                 else:
                     if i == 0:
