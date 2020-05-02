@@ -1,12 +1,15 @@
 # starter .gitignore from:
 # github.com/matplotlib/matplotlib/blob/master/.gitignore #
-# modified after to fit own needs
+# modified to fit own needs
 
 # Specific to this project #
 pylabutils/*_junk*
 pylabutils/*_temp*
 *_temp*
 *_junk*
+/temp.txt
+/todo.txt
+/ooi.txt
 
 #########################################
 # OS-specific temporary and backup files #
@@ -39,6 +42,9 @@ pylabutils/*_temp*
 
 # Python files #
 ################
+# virtual environment files
+venv
+
 # setup.py working directory
 build
 
