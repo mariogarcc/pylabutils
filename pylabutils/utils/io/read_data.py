@@ -334,7 +334,3 @@ def read_data(filename, scope = (globals(), locals()), **options):
         _add_cols(data, scope = scope)
 
     return data
-
-# To do:
-# add uncertainty support and extensive data reading.
-# group csv and table contexts.
