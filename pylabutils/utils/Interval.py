@@ -17,6 +17,7 @@ class Interval:
 
     """
 
+
     def __init__(self, interval_str):
 
         if isinstance(interval_str, Interval):
@@ -50,31 +51,63 @@ class Interval:
             raise TypeError("one of the interval arguments is not a number")
 
 
-        if self.begin >= self.end:
+        if self.begin > self.end:
             self.begin, self.end = self.end, self.begin
 
         self.begin_included = opening_bracket == '['
         self.end_included = closing_bracket == ']'
 
+        self.begin_sign = '[' if self.begin_included else '('
+        self.end_sign = ']' if self.end_included else ')'
 
-    def __repr__(self):
-        return f'Interval({str(self)!r})'
 
     def __str__(self):
         opening_bracket = '[' if self.begin_included else '('
         closing_bracket = ']' if self.end_included else ')'
         return f'{opening_bracket}{self.begin}, {self.end}{closing_bracket}'
 
+
+    def __repr__(self):
+        return f'Interval({str(self)!r})'
+
+
     def __contains__(self, number):
         if self.begin < number < self.end:
             return True
-        if number == self.begin:
+        elif number == self.begin:
             return self.begin_included
-        if number == self.end:
+        elif number == self.end:
             return self.end_included
+        else:
+            return False
 
 
-# To do:
-# operations/concatenation
-# n-dimensional extensibility -> n-dimensional cages
-# some sort of linspace using a .split method -> dividing interval in various
+    def __eq__(self, other):
+        if not isinstance(other, Interval):
+            return False
+
+        return self.begin == other.begin and self.end == other.end
+
+
+    def __len__(self):
+        return self.end - self.begin
+
+
+    def __add__(self, other): #union
+        if not isinstance(other, Interval):
+            raise TypeError("can't add number to interval")
+
+        if self.end < other.being or other.end < self.begin:
+            raise NotImplementedError
+
+        selfmin = self.begin < other.begin
+        selfmax = self.end > other.end
+
+        begin_num = self.begin if selfmin else other.begin
+        begin_sign = self.begin_sign if selfmin else other.begin_sign
+
+        end_num = self.end if selfmax else other.end
+        end_sign = self.end_sign if selfmax else other.end_sign
+
+        return Interval(f'{begin_sign}{begin_num}, {end_num}{end_sign}')
+
