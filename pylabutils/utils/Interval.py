@@ -21,13 +21,15 @@ class Interval:
     def __init__(self, interval_str):
 
         if isinstance(interval_str, Interval):
-            self.begin, self.end = interval_str.begin, interval_str.end
+            self.begin = interval_str.begin
+            self.end = interval_str.end
+            self.begin_sign = interval_str.begin_sign
+            self.end_sign = interval_str.end_sign
             self.begin_included = interval_str.begin_included
             self.end_included = interval_str.end_included
             return
-        # redundant case for when input is already an interval
 
-        number_re = r'[\d\.\w\(\)]+?'
+        number_re = r'[-+]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][-+]?\d+)?'
         interval_re = r'^\s*' \
                     + r'(\[|\()' \
                     + r'\s*' \
@@ -45,26 +47,21 @@ class Interval:
             )
 
         opening_bracket, begin, end, closing_bracket = match.groups()
-        try:
-            self.begin, self.end = float(eval(begin)), float(eval(end))
-        except TypeError:
-            raise TypeError("one of the interval arguments is not a number")
-
-
-        if self.begin > self.end:
-            self.begin, self.end = self.end, self.begin
+        self.begin, self.end = float(begin), float(end)
 
         self.begin_included = opening_bracket == '['
         self.end_included = closing_bracket == ']'
+
+        if self.begin > self.end:
+            self.begin, self.end = self.end, self.begin
+            self.begin_included, self.end_included = self.end_included, self.begin_included
 
         self.begin_sign = '[' if self.begin_included else '('
         self.end_sign = ']' if self.end_included else ')'
 
 
     def __str__(self):
-        opening_bracket = '[' if self.begin_included else '('
-        closing_bracket = ']' if self.end_included else ')'
-        return f'{opening_bracket}{self.begin}, {self.end}{closing_bracket}'
+        return f'{self.begin_sign}{self.begin}, {self.end}{self.end_sign}'
 
 
     def __repr__(self):
@@ -86,7 +83,12 @@ class Interval:
         if not isinstance(other, Interval):
             return False
 
-        return self.begin == other.begin and self.end == other.end
+        return (
+            self.begin == other.begin and
+            self.end == other.end and
+            self.begin_sign == other.begin_sign and
+            self.end_sign == other.end_sign
+        )
 
 
     def __len__(self):
@@ -95,9 +97,9 @@ class Interval:
 
     def __add__(self, other): #union
         if not isinstance(other, Interval):
-            raise TypeError("can't add number to interval")
+            raise NotImplementedError
 
-        if self.end < other.being or other.end < self.begin:
+        if self.end < other.begin or other.end < self.begin:
             raise NotImplementedError
 
         selfmin = self.begin < other.begin
@@ -111,3 +113,38 @@ class Interval:
 
         return Interval(f'{begin_sign}{begin_num}, {end_num}{end_sign}')
 
+
+    def __radd__(self, other):
+        return self.__add__(other)
+
+
+    def __iadd__(self, other):
+        return self.__add__(other)
+
+
+    def __sub__(self, other): #substraction
+        raise NotImplementedError
+
+
+    def __and__(self, other): #intersection
+        raise NotImplementedError
+
+
+    def __or__(self, other): #union
+        raise NotImplementedError
+
+
+    def __getitem__(self, key):
+        raise NotImplementedError
+
+
+    def __setitem__(self, key):
+        raise NotImplementedError
+
+
+    def __iter__(self, *args):
+        raise NotImplementedError
+
+
+    def split(self, *args):
+        raise NotImplementedError
