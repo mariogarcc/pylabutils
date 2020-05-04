@@ -138,7 +138,7 @@ class Interval:
         raise NotImplementedError
 
 
-    def __setitem__(self, key):
+    def __setitem__(self, key, value):
         raise NotImplementedError
 
 
