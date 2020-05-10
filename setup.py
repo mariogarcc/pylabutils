@@ -26,7 +26,7 @@ setuptools.setup(
     project_urls = {},
     packages = setuptools.find_packages(),
     py_modules = [],
-    install_requires = ['ipython', 'numpy', 'matplotlib', 'scipy', 'uncertainties'],
+    install_requires = ['numpy', 'matplotlib', 'scipy'],
     python_requires = '~=3.7',
     include_package_data = True,
 )
