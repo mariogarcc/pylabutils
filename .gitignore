@@ -10,6 +10,7 @@ pylabutils/*_temp*
 /temp.txt
 /todo.txt
 /ooi.txt
+venv.bat
 
 #########################################
 # OS-specific temporary and backup files #
