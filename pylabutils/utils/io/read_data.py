@@ -327,8 +327,11 @@ def read_data(filename, scope = (globals(), locals()), **options):
     data = copy.deepcopy(temp)
     del temp
 
-    scope[0].update(globals())
-    scope[1].update(locals())
+    try:
+        scope[0].update(globals())
+        scope[1].update(locals())
+    except AttributeError:
+        pass
 
     if kwargs['mod']:
         _add_cols(data, scope = scope)
