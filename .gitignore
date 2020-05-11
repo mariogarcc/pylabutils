@@ -3,12 +3,16 @@
 # modified to fit own needs
 
 # Specific to this project #
-pylabutils/*_junk*
 pylabutils/*_temp*
+pylabutils/*_todo*
+pylabutils/*_junk*
 *_temp*
+*_todo*
 *_junk*
 /temp.txt
 /todo.txt
+/junk.txt
+
 /ooi.txt
 venv.bat
 
